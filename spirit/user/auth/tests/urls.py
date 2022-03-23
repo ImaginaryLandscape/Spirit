@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from django.urls import include, re_path
+from django.conf.urls import include, re_path
 
 from ..views import register
 from ..forms import RegistrationForm

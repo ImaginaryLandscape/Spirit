@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from django.urls import include, re_path
+from django.conf.urls import include, re_path
 
 from . import views
 import spirit.category.admin.urls

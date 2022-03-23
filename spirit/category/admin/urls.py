@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from django.urls import re_path
+from django.conf.urls import re_path
 
 from ...core.conf import settings
 from . import views
