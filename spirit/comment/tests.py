@@ -475,7 +475,7 @@ class CommentViewTest(TestCase):
             'image.gif', img.read(), content_type='image/gif')}
         response = self.client.post(
             reverse('spirit:comment:image-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data=files)
         res = json.loads(response.content.decode('utf-8'))
         image_url = os.path.join(
@@ -505,7 +505,7 @@ class CommentViewTest(TestCase):
             image_name, img.read(), content_type='image/gif')
         response = self.client.post(
             reverse('spirit:comment:image-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data={'image': file})
         res = json.loads(response.content.decode('utf-8'))
 
@@ -535,7 +535,7 @@ class CommentViewTest(TestCase):
 
         response = self.client.post(
             reverse('spirit:comment:image-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data={'image': file})
         res = json.loads(response.content.decode('utf-8'))
         first_url = res['url']
@@ -544,7 +544,7 @@ class CommentViewTest(TestCase):
         file.seek(0)
         response = self.client.post(
             reverse('spirit:comment:image-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data={'image': file})
         res = json.loads(response.content.decode('utf-8'))
         second_url = res['url']
@@ -562,7 +562,7 @@ class CommentViewTest(TestCase):
             image_name, img.read(), content_type='image/gif')
         response = self.client.post(
             reverse('spirit:comment:image-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data={'image': file})
         res = json.loads(response.content.decode('utf-8'))
         self.assertTrue(res['url'].endswith('/foo_image.gif'))
@@ -578,7 +578,7 @@ class CommentViewTest(TestCase):
             image_name, img.read(), content_type='image/gif')
         response = self.client.post(
             reverse('spirit:comment:image-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data={'image': file})
         res = json.loads(response.content.decode('utf-8'))
         # django 2.2 and 3.0 compat
@@ -600,7 +600,7 @@ class CommentViewTest(TestCase):
             image_name, img.read(), content_type='image/gif')
         response = self.client.post(
             reverse('spirit:comment:image-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data={'image': file})
         res = json.loads(response.content.decode('utf-8'))
         self.assertTrue(res['url'].endswith(ext))
@@ -620,7 +620,7 @@ class CommentViewTest(TestCase):
             image_name, img.read(), content_type='image/gif')
         response = self.client.post(
             reverse('spirit:comment:image-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data={'image': file})
         res = json.loads(response.content.decode('utf-8'))
         self.assertTrue(res['url'].endswith(ext))
@@ -640,7 +640,7 @@ class CommentViewTest(TestCase):
             image_name, img.read(), content_type='image/gif')
         response = self.client.post(
             reverse('spirit:comment:image-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data={'image': file})
         res = json.loads(response.content.decode('utf-8'))
         self.assertTrue(res['url'].endswith('/hidden.gif'))
@@ -656,7 +656,7 @@ class CommentViewTest(TestCase):
         files = {'image': SimpleUploadedFile(image.name, image.read())}
         response = self.client.post(
             reverse('spirit:comment:image-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data=files)
         res = json.loads(response.content.decode('utf-8'))
         self.assertIn('error', res.keys())
@@ -672,7 +672,7 @@ class CommentViewTest(TestCase):
         file = SimpleUploadedFile('image.gif', content)
         response = self.client.post(
             reverse('spirit:comment:image-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data={'image': file})
         res = json.loads(response.content.decode('utf-8'))
         self.assertTrue(res['url'].endswith('/image_test.gif'))
@@ -698,7 +698,7 @@ class CommentViewTest(TestCase):
             'file.pdf', file.read(), content_type='application/pdf')}
         response = self.client.post(
             reverse('spirit:comment:file-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data=files)
 
         res = json.loads(response.content.decode('utf-8'))
@@ -735,7 +735,7 @@ class CommentViewTest(TestCase):
                 'file_large.pdf', file.read(), content_type='application/pdf')}
         response = self.client.post(
             reverse('spirit:comment:file-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data=files)
 
         res = json.loads(response.content.decode('utf-8'))
@@ -771,7 +771,7 @@ class CommentViewTest(TestCase):
             file_name, pdf.read(), content_type='application/pdf')
         response = self.client.post(
             reverse('spirit:comment:file-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data={'file': file})
         res = json.loads(response.content.decode('utf-8'))
 
@@ -804,7 +804,7 @@ class CommentViewTest(TestCase):
 
         response = self.client.post(
             reverse('spirit:comment:file-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data={'file': file})
         res = json.loads(response.content.decode('utf-8'))
         first_url = res['url']
@@ -813,7 +813,7 @@ class CommentViewTest(TestCase):
         file.seek(0)
         response = self.client.post(
             reverse('spirit:comment:file-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data={'file': file})
         res = json.loads(response.content.decode('utf-8'))
         second_url = res['url']
@@ -836,7 +836,7 @@ class CommentViewTest(TestCase):
             'fake.gif', file.read(), content_type='application/pdf')}
         response = self.client.post(
             reverse('spirit:comment:file-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data=files)
         res = json.loads(response.content.decode('utf-8'))
         self.assertIn('error', res)
@@ -857,7 +857,7 @@ class CommentViewTest(TestCase):
                 'file.pdf', file.read(), content_type='application/pdf')}
         response = self.client.post(
             reverse('spirit:comment:file-upload-ajax'),
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+            headers={"x-requested-with": 'XMLHttpRequest'}, 
             data=files)
         res = json.loads(response.content.decode('utf-8'))
         self.assertIn('error', res)

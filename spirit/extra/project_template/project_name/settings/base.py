@@ -141,7 +141,6 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
 
 USE_TZ = True
 
@@ -156,7 +155,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-DEFAULT_FILE_STORAGE = 'spirit.core.storage.OverwriteFileSystemStorage'
+STORAGES = {
+    "default": {
+        "BACKEND": 'spirit.core.storage.OverwriteFileSystemStorage',
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 # Send an email to the site admins
 # on error when DEBUG=False,
