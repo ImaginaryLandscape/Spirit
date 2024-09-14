@@ -25,7 +25,7 @@ from . import utils as test_utils
 from ..tags.messages import render_messages
 
 User = get_user_model()
-utc = datetime.timezone.utc
+utc = datetime.UTC
 
 
 class UtilsTests(TestCase):
