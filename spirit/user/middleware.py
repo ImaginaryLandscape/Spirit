@@ -1,7 +1,5 @@
 import logging
 
-import pytz
-
 from django.contrib.auth import logout
 from django.utils import timezone
 from django.utils.deprecation import MiddlewareMixin
@@ -28,9 +26,7 @@ class TimezoneMiddleware(MiddlewareMixin):
 
         try:
             timezone.activate(request.user.st.timezone)
-            # use KeyError instead of ZoneInfoNotFoundError
-            # because of "backport" package for py 3.8
-        except (pytz.exceptions.UnknownTimeZoneError, KeyError):
+        except ValueError:
             timezone.deactivate()
             logger.error(
                 '%s is not a valid timezone.', request.user.st.timezone)

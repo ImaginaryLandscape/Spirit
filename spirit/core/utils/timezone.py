@@ -1,8 +1,6 @@
 import logging
 import datetime
-
-import pytz
-
+from zoneinfo import available_timezones, ZoneInfo
 
 __all__ = ['timezones']
 
@@ -10,28 +8,26 @@ logger = logging.getLogger('django')
 
 
 def is_standard_time(time_zone, date_time):
-    try:
-        dst_delta = time_zone.dst(date_time, is_dst=False)
-    except TypeError:
-        dst_delta = time_zone.dst(date_time)
-
+    # Check if the time zone is in standard time (not DST)
+    dst_delta = time_zone.dst(date_time)
     return dst_delta == datetime.timedelta(0)
 
 
 def utc_offset(time_zone, fixed_dt=None):
-    tz = pytz.timezone(time_zone)
+    tz = ZoneInfo(time_zone)
     now = fixed_dt or datetime.datetime.now()
 
+    # Loop to find the first date where DST is not in effect
     for __ in range(72):
         if is_standard_time(time_zone=tz, date_time=now):
             break
-
         now += datetime.timedelta(days=30)
-    else:
-        logger.warning(
-            'Standard Time not found for %s, will use DST.' % time_zone)
 
-    return tz.localize(now, is_dst=False).strftime('%z')
+    # Replace or adjust the naive datetime to be timezone-aware
+    now = now.replace(tzinfo=tz)
+    
+    # Return the formatted timezone offset
+    return now.strftime('%z')
 
 
 def offset_to_int(offset):
@@ -49,7 +45,7 @@ def offset_to_int(offset):
 def timezones_by_offset():
     return sorted(
         ((utc_offset(tz), tz)
-         for tz in pytz.common_timezones),
+         for tz in available_timezones()),
         key=lambda x: (offset_to_int(x[0]), x[1]))
 
 
@@ -87,10 +83,6 @@ def timezones():
 
     for offset, time_zone in timezones_by_offset():
         zone, pretty_time_zone = timezone_format(time_zone, offset)
-        (timezones_cache
-         .setdefault(zone, [])
-         .append((time_zone, pretty_time_zone)))
+        timezones_cache.setdefault(zone, []).append((time_zone, pretty_time_zone))
 
-    return sorted(
-        timezones_cache.items(),
-        key=lambda x: x[0])
+    return sorted(timezones_cache.items(), key=lambda x: x[0])
